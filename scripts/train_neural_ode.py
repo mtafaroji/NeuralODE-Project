@@ -24,7 +24,7 @@ optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
 # ----------  Training loop ----------
-num_epochs = 40
+num_epochs = 400
 for epoch in range(num_epochs):
     total_loss = 0.0
 

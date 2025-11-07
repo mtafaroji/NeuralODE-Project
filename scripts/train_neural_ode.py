@@ -11,7 +11,7 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 # Import our model
 from models.f_theta1 import FTheta
 
-# ---------- Load processed data ----------
+# ------- Load processed data ---------------------
 dataset = torch.load("data/processed/dataset.pt")
 data = dataset['data']      
 time = dataset['time']      
@@ -23,8 +23,8 @@ f_theta = FTheta(input_dim=num_features)
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
-# ----------  Training loop ----------
-num_epochs = 400
+# ----------Training loop ------------------------------------
+num_epochs = 40
 for epoch in range(num_epochs):
     total_loss = 0.0
 
@@ -53,9 +53,8 @@ for epoch in range(num_epochs):
 
     avg_loss = total_loss / num_runs
     if (epoch + 1) % 20 == 0:
-        print(f"Epoch [{epoch+1}/{num_epochs}] - Loss: {avg_loss:.6f}")
+        print(f"Epoch [{epoch}] - Loss: {avg_loss:.6f}")
 
 # ---------- 4. Save trained model ----------
-Path("models").mkdir(exist_ok=True)
+
 torch.save(f_theta.state_dict(), "models/neural_ode_model.pth")
-print(" Training complete.")

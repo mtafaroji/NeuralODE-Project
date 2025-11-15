@@ -13,7 +13,7 @@ class FTheta(nn.Module):
     def __init__(self, input_dim, hidden_dim=128):
         super().__init__()
         self.net = nn.Sequential(
-            nn.Linear(input_dim +1, hidden_dim),
+            nn.Linear(input_dim, hidden_dim),
             nn.Tanh(),
             nn.Linear(hidden_dim, hidden_dim),
             nn.Tanh(),
@@ -21,10 +21,7 @@ class FTheta(nn.Module):
         )
     
     def forward(self, t, h): 
-        t_tensor = torch.ones(h.shape[0], 1, device=h.device) * t
-        x_in = torch.cat([h, t_tensor], dim=-1)
               # مطمئن شو که h هم روی همان device است
-        #h = h.to(device) 
-        #out = self.net(h)
-        #return out
-        return self.net(x_in)
+        h = h.to(device) 
+        out = self.net(h)
+        return out

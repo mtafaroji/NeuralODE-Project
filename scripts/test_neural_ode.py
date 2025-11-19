@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 
-from models.f_theta1 import FTheta
+from models.f_theta import FTheta
 
 
 # ------------------- Device -----------------------
@@ -28,14 +28,15 @@ dataset = torch.load(dataset_path)
 data = dataset['data'].float().to(device)
 time = dataset['time'].float().to(device)
 
-
+mean = dataset['mean']   # شکل: (1, 1, D)
+std  = dataset['std']    # شکل: (1, 1, D)
 
 
 num_runs, num_steps, num_features = data.shape
 
 ########################################
 ########################################
-h_true = data[9]
+h_true = data[2]
 h0 = h_true[0].unsqueeze(0)  # shape: (1, num_features)
 ########################################
 ########################################
@@ -62,15 +63,33 @@ h_pred = h_pred.cpu()
 time_cpu = time.cpu()
 
 
-# ---------- Plot comparison ----------
+
+mean_cpu = mean.squeeze(0).squeeze(0).cpu()  # شکل: (D,)
+std_cpu  = std.squeeze(0).squeeze(0).cpu()   # شکل: (D,)
+
+# denormalization:
+# x_real = x_norm * std + mean
+
+h_true_denorm = h_true * std_cpu + mean_cpu      # شکل: (T, D)
+h_pred_denorm = h_pred * std_cpu + mean_cpu      # شکل: (T, D)
+
+
+
+
 plt.figure(figsize=(10, 6))
 for i in range(num_features):
     plt.subplot(num_features, 1, i+1)
-    plt.plot(time_cpu.numpy(), h_true[:, i].numpy(), 'b-', label=f"True Stock {i+1}")
-    plt.plot(time_cpu.numpy(), h_pred[:, i].numpy(), 'r--', label=f"Predicted Stock {i+1}")
+    plt.plot(time_cpu.numpy(),
+             h_true_denorm[:, i].numpy(),
+             'b-', label=f"True Stock {i+1}")
+    plt.plot(time_cpu.numpy(),
+             h_pred_denorm[:, i].numpy(),
+             'r--', label=f"Predicted Stock {i+1}")
     plt.legend()
     plt.xlabel("Time")
     plt.ylabel("Value")
+
+
 
 plt.tight_layout()
 plt.show()

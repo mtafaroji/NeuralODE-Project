@@ -8,7 +8,7 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 # Import our model
-from models.f_theta1 import FTheta
+from models.f_theta import FTheta
 
 
 

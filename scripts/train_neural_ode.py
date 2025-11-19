@@ -42,7 +42,7 @@ for epoch in range(num_epochs):
         end = start + batch_size
         batch = data[start:end]
         h0_batch = batch[:, 0, :]
-        h_true = data[start]                   
+        #h_true = data[start]                   
         #h0 = h_true[0]       
 
         # Predict trajectory

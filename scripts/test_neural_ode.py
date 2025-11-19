@@ -18,6 +18,9 @@ print("Using device:", device)
 
 # ---------- Load trained model ----------
 model_path = "models/neural_ode_model.pth"
+#model_path = "models/neural_ode_model_windowed.pth"
+
+#model_path = "models/neural_ode_model_windowed_split.pth"
 dataset_path = "data/processed/dataset.pt"
 
 # Load dataset
@@ -30,9 +33,12 @@ time = dataset['time'].float().to(device)
 
 num_runs, num_steps, num_features = data.shape
 
-
-h_true = data[3]
+########################################
+########################################
+h_true = data[9]
 h0 = h_true[0].unsqueeze(0)  # shape: (1, num_features)
+########################################
+########################################
 
 # Load model
 f_theta = FTheta(input_dim=num_features).to(device)

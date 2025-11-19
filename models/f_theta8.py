@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-# تعریف device (GPU اگر موجود باشد، در غیر اینصورت CPU)
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 

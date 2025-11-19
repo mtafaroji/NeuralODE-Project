@@ -4,9 +4,9 @@ from torchdiffeq import odeint
 from pathlib import Path
 import sys
 
-# برای اینکه بتوانیم مدل را ایمپورت کنیم
+
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from models.f_theta8 import FTheta   # همان مدلی که الان استفاده می‌کنی (با ورودی زمان)
+from models.f_theta8 import FTheta   # Model that takes time as input
 
 
 # ------------------- Device -----------------------
@@ -28,7 +28,7 @@ if num_runs <= 3:
     raise ValueError("We need at least 4 runs to hold out the last 3 for testing.")
 
 # ------------------- Train / Test split -----------
-# فرض: آخرین سه ران برای تست نگه داشته می‌شوند
+# Last three runs are held out for testing
 num_train_runs = num_runs - 3
 train_run_indices = list(range(num_train_runs))
 test_run_indices = list(range(num_train_runs, num_runs))
@@ -37,8 +37,9 @@ print("Train runs:", train_run_indices)
 print("Test runs (held-out):", test_run_indices)
 
 # ------------------- Windowing parameters ----------
-WINDOW = 10  # طول هر پنجره
-# اینجا پنجره‌ها را بدون overlap و پشت سر هم می‌گیریم: [0,10), [10,20), ...
+# Windowing is used to create smaller segments of the time series for training
+WINDOW = 10  # Length of each window
+
 start_indices = list(range(0, num_steps - WINDOW + 1, WINDOW))
 num_windows_per_run = len(start_indices)
 print(f"WINDOW = {WINDOW}, num_windows_per_run = {num_windows_per_run}")
@@ -47,7 +48,7 @@ print("Test runs (held-out):", test_run_indices)
 
 
 # ------------------- Model / Optimizer ------------
-# توجه: FTheta باید همان نسخه‌ای باشد که t را هم می‌گیرد
+
 f_theta = FTheta(input_dim=num_features).to(device)
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
@@ -60,7 +61,7 @@ for epoch in range(1, num_epochs + 1):
     total_loss = 0.0
     total_batches = 0
 
-    # برای تنوع، ترتیب start_index ها را shuffle می‌کنیم
+    # A simple shuffle of start indices each epoch to decrease correlation
     s_perm = torch.randperm(len(start_indices))
 
     for s_idx in s_perm:
@@ -68,25 +69,25 @@ for epoch in range(1, num_epochs + 1):
         e = s + WINDOW
 
         # ----------------------------
-        # batch روی همه‌ی ران‌های آموزشی
+        # batch of all training runs for this window
         # ----------------------------
-        # شکل: (num_train_runs, WINDOW, D)
+        #  (num_train_runs, WINDOW, D)
         batch = data[train_run_indices, s:e, :]         
 
-        # h0 برای همه‌ی ران‌ها: (num_train_runs, D)
+        # Get initial state for trajectories (num_train_runs, D)
         h0_batch = batch[:, 0, :]
 
-        # time window مشترک: (WINDOW,)
+        # time window : (WINDOW,)
         t_window = time_full[s:e]
 
-        # odeint روی batch:
+        # odeint over batch:
         # خروجی: (WINDOW, batch, D)
         h_pred = odeint(f_theta, h0_batch, t_window, method='rk4')
 
-        # تبدیل به شکل (batch, WINDOW, D)
+        #   (batch, WINDOW, D)
         h_pred = h_pred.permute(1, 0, 2)
 
-        # loss روی کل batch
+        # loss  over batch
         loss = loss_fn(h_pred, batch)
 
         optimizer.zero_grad()

@@ -73,8 +73,8 @@ for epoch in range(num_epochs):
 
         # Calculation of derivative with central difference method
         # batch: (B, T, D)
-        x_prev = batch[:, :-2, :]   # x_{k-1}, شکل: (B, T-2, D)
-        x_next = batch[:,  2:, :]   # x_{k+1}, شکل: (B, T-2, D)
+        x_prev = batch[:, :-2, :]   # x_{k-1},  (B, T-2, D)
+        x_next = batch[:,  2:, :]   # x_{k+1},  (B, T-2, D)
 
         dt_center = (time[2:] - time[:-2]).view(1, -1, 1)   # (1, T-2, 1)
         dxdt_true = (x_next - x_prev) / dt_center           # (B, T-2, D)

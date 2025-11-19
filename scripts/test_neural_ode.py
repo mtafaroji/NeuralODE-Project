@@ -8,10 +8,10 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 
-from models.f_theta1 import FTheta
+from models.f_theta8 import FTheta
 
 # ---------- Load trained model ----------
-model_path = "models/neural_ode_model.pth"
+model_path = "models/neural_ode_model_windowed_split.pth"
 dataset_path = "data/processed/dataset.pt"
 
 # Load dataset

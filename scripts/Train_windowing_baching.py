@@ -1,0 +1,137 @@
+import torch
+import torch.nn as nn
+from torchdiffeq import odeint
+from pathlib import Path
+import sys
+
+# برای اینکه بتوانیم مدل را ایمپورت کنیم
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+from models.f_theta8 import FTheta   # همان مدلی که الان استفاده می‌کنی (با ورودی زمان)
+
+
+# ------------------- Device -----------------------
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Using device:", device)
+
+# ------------------- Load dataset -----------------
+dataset_path = "data/processed/dataset.pt"
+dataset = torch.load(dataset_path)
+
+# data shape: (num_runs, num_steps, num_features)
+data = dataset["data"].float().to(device)
+time_full = dataset["time"].float().to(device)
+
+num_runs, num_steps, num_features = data.shape
+print(f"num_runs = {num_runs}, num_steps = {num_steps}, num_features = {num_features}")
+
+if num_runs <= 3:
+    raise ValueError("We need at least 4 runs to hold out the last 3 for testing.")
+
+# ------------------- Train / Test split -----------
+# فرض: آخرین سه ران برای تست نگه داشته می‌شوند
+num_train_runs = num_runs - 3
+train_run_indices = list(range(num_train_runs))
+test_run_indices = list(range(num_train_runs, num_runs))
+
+print("Train runs:", train_run_indices)
+print("Test runs (held-out):", test_run_indices)
+
+# ------------------- Windowing parameters ----------
+WINDOW = 10  # طول هر پنجره
+# اینجا پنجره‌ها را بدون overlap و پشت سر هم می‌گیریم: [0,10), [10,20), ...
+start_indices = list(range(0, num_steps - WINDOW + 1, WINDOW))
+num_windows_per_run = len(start_indices)
+print(f"WINDOW = {WINDOW}, num_windows_per_run = {num_windows_per_run}")
+print("Train runs:", train_run_indices)
+print("Test runs (held-out):", test_run_indices)
+
+
+# ------------------- Model / Optimizer ------------
+# توجه: FTheta باید همان نسخه‌ای باشد که t را هم می‌گیرد
+f_theta = FTheta(input_dim=num_features).to(device)
+optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
+loss_fn = nn.MSELoss()
+
+num_epochs = 100
+
+# ------------------- Training loop ----------------
+for epoch in range(1, num_epochs + 1):
+    f_theta.train()
+    total_loss = 0.0
+    total_batches = 0
+
+    # برای تنوع، ترتیب start_index ها را shuffle می‌کنیم
+    s_perm = torch.randperm(len(start_indices))
+
+    for s_idx in s_perm:
+        s = start_indices[s_idx.item()]
+        e = s + WINDOW
+
+        # ----------------------------
+        # batch روی همه‌ی ران‌های آموزشی
+        # ----------------------------
+        # شکل: (num_train_runs, WINDOW, D)
+        batch = data[train_run_indices, s:e, :]         
+
+        # h0 برای همه‌ی ران‌ها: (num_train_runs, D)
+        h0_batch = batch[:, 0, :]
+
+        # time window مشترک: (WINDOW,)
+        t_window = time_full[s:e]
+
+        # odeint روی batch:
+        # خروجی: (WINDOW, batch, D)
+        h_pred = odeint(f_theta, h0_batch, t_window, method='rk4')
+
+        # تبدیل به شکل (batch, WINDOW, D)
+        h_pred = h_pred.permute(1, 0, 2)
+
+        # loss روی کل batch
+        loss = loss_fn(h_pred, batch)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        total_loss += loss.item()
+        total_batches += 1
+
+    avg_loss = total_loss / max(total_batches, 1)
+
+
+    if epoch % 20 == 0:
+        print(f"Epoch [{epoch}/{num_epochs}] - Avg window loss: {avg_loss:.6f}")
+
+# ------------------- Save trained model -----------
+model_path = "models/neural_ode_model_windowed_split.pth"
+torch.save(f_theta.state_dict(), model_path)
+print("Saved trained model to:", model_path)
+
+
+###############################################
+# quick eval loss on held-out runs -------------
+#calculation of acuracy of model over test data
+###############################################
+f_theta.eval()
+with torch.no_grad():
+    eval_loss = 0.0
+    eval_windows = 0
+    for r in test_run_indices:
+        for s in start_indices:
+            e = s + WINDOW
+            h_true = data[r, s:e, :]
+            h0 = h_true[0].unsqueeze(0)
+            t_window = time_full[s:e]
+
+            h_pred = odeint(f_theta, h0, t_window, method='rk4')
+            if h_pred.dim() == 3:
+                h_pred = h_pred.squeeze(1)
+
+            loss = loss_fn(h_pred, h_true)
+            eval_loss += loss.item()
+            eval_windows += 1
+
+    if eval_windows > 0:
+        print(f"Held-out runs avg window loss: {eval_loss / eval_windows:.6f}")
+    else:
+        print("No held-out windows to evaluate.")

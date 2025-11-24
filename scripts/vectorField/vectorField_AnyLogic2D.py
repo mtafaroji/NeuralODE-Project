@@ -1,41 +1,32 @@
 import numpy as np
 import plotly.graph_objects as go
 
+
 # ======================
 #   AnyLogic ODEs
 # ======================
-'''
+
 def f(x, y, z):
     denom = (x + y + z) + 1e-9
     dx = 0.1*z - 0.4*((x*y)/denom)
     dy = 0.4*((x*y)/denom) - 0.3*y
     dz = 0.3*y - 0.1*z
     return dx, dy, dz
-'''
-
-def f(x, y, z):
-    denom = (x + y + z) + 1e-9
-    dx = y
-    dy = 3*x-x*x*x-0.2*y
-    dz = 0
-    return dx, dy, dz
-
-
 
 
 
 # ============= Settings =============
 grid_n = 30
-arrow_len = 0.5
+arrow_len = 1.0
 head_size = 1
 
-x_min, x_max = -5, 5
-y_min, y_max =  -5, 5
-z_min, z_max =  -1, 1
+x_min, x_max = 60, 90
+y_min, y_max =  1, 9
+z_min, z_max =  12, 24
 
-z_plane = 20.0
-y_plane = 15.0
-x_plane = 70.0
+z_plane = 18.0
+y_plane = 6.0
+x_plane = 74.0
 # ====================================
 
 def plot_plane(X, Y, U, V, title, xlabel, ylabel, xr, yr):

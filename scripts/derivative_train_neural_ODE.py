@@ -36,7 +36,7 @@ mse = nn.MSELoss()
 lambda_deriv = 2.0  # We can tune this hyperparameter to balance the two loss terms
 
 # ----------Training loop ------------------------------------
-batch_size = 8
+batch_size = 21
 num_epochs = 1000
 for epoch in range(num_epochs):
     total_loss = 0.0

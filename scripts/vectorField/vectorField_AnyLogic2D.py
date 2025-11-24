@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 # ======================
 
 def f(x, y, z):
-    denom = (x + y + z) + 1e-9
+    #denom = (x + y + z) + 1e-9
     dx = 0.1*z - 0.4*((x*y)/denom)
     dy = 0.4*((x*y)/denom) - 0.3*y
     dz = 0.3*y - 0.1*z

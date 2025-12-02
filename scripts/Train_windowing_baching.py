@@ -14,7 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
 # ------------------- Load dataset -----------------
-dataset_path = "data/processed/dataset.pt"
+dataset_path = "data/processed/dataset1.pt"
 dataset = torch.load(dataset_path)
 
 # data shape: (num_runs, num_steps, num_features)
@@ -53,7 +53,7 @@ f_theta = FTheta(input_dim=num_features).to(device)
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
-num_epochs = 100
+num_epochs = 300
 
 # ------------------- Training loop ----------------
 for epoch in range(1, num_epochs + 1):
@@ -104,10 +104,13 @@ for epoch in range(1, num_epochs + 1):
         print(f"Epoch [{epoch}/{num_epochs}] - Avg window loss: {avg_loss:.6f}")
 
 # ------------------- Save trained model -----------
-model_path = "models/neural_ode_model_windowed_split.pth"
+model_path = "models/neural_ode_model_windowed_split1.pth"
 torch.save(f_theta.state_dict(), model_path)
 print("Saved trained model to:", model_path)
 
+
+
+'''
 
 ###############################################
 # quick eval loss on held-out runs -------------
@@ -136,3 +139,4 @@ with torch.no_grad():
         print(f"Held-out runs avg window loss: {eval_loss / eval_windows:.6f}")
     else:
         print("No held-out windows to evaluate.")
+'''

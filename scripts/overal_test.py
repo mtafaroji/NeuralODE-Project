@@ -21,7 +21,7 @@ print("Using device:", device)
 # ---------- Load trained model ---------- #######################@@@@@@@@ Load Model
 #model_path = "models/basin1.pth"
 #model_path = "models/basin1_then_basin2.pth"
-model_path = "models/neural_ode_model_windowed_split1.pth"
+model_path = "models/windowed_with_deriv.pth"
 
 #----------- Load Tensor dataSet -------------####################@@@@@@ Load DataSet
 #dataset_path = "data/processed/datasetBasin1.pt"
@@ -117,6 +117,6 @@ fig.update_layout(
 )
 
 # ذخیره‌ی خروجی HTML
-out_path = "Non_Autonomous1.html" ####################@@@@@@@@ Change the name of output file
+out_path = "Non_Autonomous_DrivativeLoss.html" ####################@@@@@@@@ Change the name of output file
 fig.write_html(out_path, include_plotlyjs="cdn")
 print(f"Saved HTML file to {out_path}")

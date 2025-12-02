@@ -22,7 +22,7 @@ time = dataset['time']
 num_runs, num_steps, num_features = data.shape
 
 
-h_true = data[4]
+h_true = data[0]
 h0 = h_true[0]
 
 # Load model

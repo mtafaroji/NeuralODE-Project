@@ -18,7 +18,7 @@ print("Using device:", device)
 
 
 # ------- Load processed data ---------------------
-dataset = torch.load("data/processed/dataset.pt")
+dataset = torch.load("data/processed/dataset2.pt")
 data = dataset['data'].float().to(device)       # shape: (num_runs, time_steps, features)     
 time = dataset['time'].float().to(device)       # shape: (time_steps,)  
 
@@ -33,11 +33,11 @@ f_theta = FTheta(input_dim=num_features).to(device)
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 mse = nn.MSELoss()
 
-lambda_deriv = 2.0  # We can tune this hyperparameter to balance the two loss terms
+lambda_deriv = 2.5  # We can tune this hyperparameter to balance the two loss terms
 
 # ----------Training loop ------------------------------------
 batch_size = 8
-num_epochs = 1000
+num_epochs = 900
 for epoch in range(num_epochs):
     total_loss = 0.0
     total_batches = 0
@@ -116,5 +116,5 @@ for epoch in range(num_epochs):
 
 # ---------- 4. Save trained model ----------
 
-torch.save(f_theta.state_dict(), "models/neural_ode_model.pth")
+torch.save(f_theta.state_dict(), "models/drivativeOnly2.pth")
 print("Model saved to models/neural_ode_model.pth")

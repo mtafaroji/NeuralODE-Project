@@ -33,7 +33,7 @@ f_theta = FTheta(input_dim=num_features).to(device)
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 mse = nn.MSELoss()
 
-lambda_deriv = 2.5  # We can tune this hyperparameter to balance the two loss terms
+lambda_deriv = 0.0  # We can tune this hyperparameter to balance the two loss terms
 
 # ----------Training loop ------------------------------------
 batch_size = 8
@@ -116,5 +116,5 @@ for epoch in range(num_epochs):
 
 # ---------- 4. Save trained model ----------
 
-torch.save(f_theta.state_dict(), "models/drivativeOnly2.pth")
+torch.save(f_theta.state_dict(), "models/drivativeOnlyOffDrive.pth")
 print("Model saved to models/neural_ode_model.pth")

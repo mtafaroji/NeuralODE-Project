@@ -19,7 +19,7 @@ print("Using device:", device)
 
 
 # ---------- Load trained model ---------- #######################@@@@@@@@ Load Model
-model_path = "models/drivativeOnly2.pth"
+model_path = "models/drivativeOnlyOffDrive.pth"
 
 #----------- Load Tensor dataSet -------------####################@@@@@@ Load DataSet
 dataset_path = "data/processed/dataset2.pt"
@@ -112,6 +112,6 @@ fig.update_layout(
 )
 
 # ذخیره‌ی خروجی HTML
-out_path = "Draivative_NonAutonomous2.html" ####################@@@@@@@@ Change the name of output file
+out_path = "Draivative_AutonomousOffDrive.html" ####################@@@@@@@@ Change the name of output file
 fig.write_html(out_path, include_plotlyjs="cdn")
 print(f"Saved HTML file to {out_path}")

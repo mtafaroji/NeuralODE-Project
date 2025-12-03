@@ -50,7 +50,7 @@ data_norm = (data_tensor - mean) / std
 # ----------------------------
 # saving proceed data
 # ----------------------------
-out_path = os.path.join(PROCESSED_DIR, "dataset1.pt")
+out_path = os.path.join(PROCESSED_DIR, "dataset.pt")
 torch.save({
     "data": data_norm,       
     "time": time_tensor,     

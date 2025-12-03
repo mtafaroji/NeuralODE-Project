@@ -8,12 +8,12 @@ import torch
 # ----------------------------
 # files paths and directories
 # ----------------------------
-RAW_DIR = "data/raw"
+RAW_DIR = "data/raw/evaluation"     ################################@@@@@@@@@@@@@@ Change the path for raw data
 PROCESSED_DIR = "data/processed"
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
 # finding CSV files
-files = sorted(glob.glob(os.path.join(RAW_DIR, "stocks_*.csv")))
+files = sorted(glob.glob(os.path.join(RAW_DIR, "*.csv")))
 if len(files) == 0:
     raise SystemExit("No stocks_*.csv files found in data/raw. Put your CSV files there.")
 
@@ -50,7 +50,7 @@ data_norm = (data_tensor - mean) / std
 # ----------------------------
 # saving proceed data
 # ----------------------------
-out_path = os.path.join(PROCESSED_DIR, "dataset2.pt")
+out_path = os.path.join(PROCESSED_DIR, "datasetEval.pt")
 torch.save({
     "data": data_norm,       
     "time": time_tensor,     

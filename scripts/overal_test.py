@@ -21,13 +21,13 @@ print("Using device:", device)
 # ---------- Load trained model ---------- #######################@@@@@@@@ Load Model
 #model_path = "models/basin1.pth"
 #model_path = "models/basin1_then_basin2.pth"
-model_path = "models/NonAutonomous_DrivativeOn.pth"
+model_path = "models/NonAutonomous_DrivativeOff00.pth"
 
 #----------- Load Tensor dataSet -------------####################@@@@@@ Load DataSet
 #dataset_path = "data/processed/datasetBasin1.pt"
 #dataset_path = "data/processed/datasetBasin2.pt"
 #dataset_path = "data/processed/datasetComposed.pt"
-dataset_path = "data/processed/dataset.pt"
+dataset_path = "data/processed/datasetEval.pt"
 
 # Load dataset
 dataset = torch.load(dataset_path)
@@ -117,6 +117,6 @@ fig.update_layout(
 )
 
 # ذخیره‌ی خروجی HTML
-out_path = "Non_Autonomous_DrivativeOn.html" ####################@@@@@@@@ Change the name of output file
+out_path = "Non_Autonomous_DrivativeOff00.html" ####################@@@@@@@@ Change the name of output file
 fig.write_html(out_path, include_plotlyjs="cdn")
 print(f"Saved HTML file to {out_path}")

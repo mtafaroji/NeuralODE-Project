@@ -14,7 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
 # ------------------- Load dataset -----------------
-dataset_path = "data/processed/dataset.pt"
+dataset_path = "data/processed/datasetEval.pt"
 dataset = torch.load(dataset_path)
 
 # data shape: (num_runs, num_steps, num_features)
@@ -29,7 +29,7 @@ if num_runs <= 3:
 
 # ------------------- Train / Test split -----------
 # Last three runs are held out for testing
-num_train_runs = num_runs - 3
+num_train_runs = num_runs - 4
 train_run_indices = list(range(num_train_runs))
 test_run_indices = list(range(num_train_runs, num_runs))
 
@@ -52,9 +52,9 @@ optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
 # وزنِ لاس مشتق (مثل کد اول)
-lambda_deriv = 2.5
+lambda_deriv = 0.0
 
-num_epochs = 700
+num_epochs = 1000
 
 # ------------------- Training loop ----------------
 for epoch in range(1, num_epochs + 1):
@@ -146,7 +146,7 @@ for epoch in range(1, num_epochs + 1):
               f"Avg window loss (traj + {lambda_deriv}*deriv): {avg_loss:.6f}")
 
 # ------------------- Save trained model -----------
-model_path = "models/NonAutonomous_DrivativeOn.pth"
+model_path = "models/NonAutonomous_DrivativeOff00.pth"
 torch.save(f_theta.state_dict(), model_path)
 print("Saved trained model to:", model_path)
 

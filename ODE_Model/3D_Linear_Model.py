@@ -12,6 +12,7 @@ import torch
 # 1) تعریف ODE
 # -------------------------------------------------
 # این قسمت را فقط با معادلاتت عوض کن
+'''
 a = -0.5
 b = 0.8
 c = -0.6
@@ -25,6 +26,14 @@ def rhs(t, state):
     dz = d * y + e * z
     return [dx, dy, dz]
 
+'''
+I = 15.21
+def rhs(t, state):
+    x, y, z= state
+    dx = -4 * x - y + 18.0
+    dy = -1.2 * y -4 *z + 6.4
+    dz = 4 * y -1.2 * z - 6.8
+    return [dx, dy, dz]
 
 
 # -------------------------------------------------
@@ -79,9 +88,9 @@ def plot_results(t, Y):
 if __name__ == "__main__":
     
     all_StartPoints = []
-    for i in list([-1, -1 , 6]):# + list(range(1,4)):
-        for j in list([-2,5]):
-            for l in list([-4,1,3]):
+    for i in list([1, 4 , 6]):# + list(range(1,4)):
+        for j in list([0,4]):
+            for l in list([3,4,5]):
                 all_StartPoints.append((i,j,l))
 
 
@@ -100,7 +109,7 @@ if __name__ == "__main__":
         filename = "3D_Linear_run" +str(k) + ".csv"
 
         # حل ODE
-        t, Y = simulate(y0, t_start=0, t_end=40, n_steps=40)
+        t, Y = simulate(y0, t_start=0, t_end= 7, n_steps=40)
 
         # رسم
         plot_results(t, Y)

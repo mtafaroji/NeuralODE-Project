@@ -33,11 +33,11 @@ f_theta = FTheta(input_dim=num_features).to(device)
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 mse = nn.MSELoss()
 
-lambda_deriv = 2.5  # We can tune this hyperparameter to balance the two loss terms
+lambda_deriv = 0.0  # We can tune this hyperparameter to balance the two loss terms
 
 # ----------Training loop ------------------------------------
 batch_size = 16
-num_epochs = 900
+num_epochs = 1000
 for epoch in range(num_epochs):
     total_loss = 0.0
     total_batches = 0

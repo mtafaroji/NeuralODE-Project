@@ -53,8 +53,8 @@ def simulate(y0, t_start, t_end, n_steps=1000, method="RK45"):
 # 3) ذخیره در CSV
 # -------------------------------------------------
 def save_csv(t, Y, filename):
-    os.makedirs("data/raw/evaluation", exist_ok=True)  ### Make sure directory exists ###
-    path = f"data/raw/evaluation/{filename}"  ###########################################@@@@@ save path
+    os.makedirs("data/raw/Original", exist_ok=True)  ### Make sure directory exists ###
+    path = f"data/raw/Original/{filename}"  ###########################################@@@@@ save path
 
     df = pd.DataFrame({
         "time": t,
@@ -88,7 +88,7 @@ def plot_results(t, Y):
 if __name__ == "__main__":
     
     all_StartPoints = []
-    for i in list([1, 4 , 6]):# + list(range(1,4)):
+    for i in list([1, 2 , 6]):# + list(range(1,4)):
         for j in list([0,4]):
             for l in list([3,4,5]):
                 all_StartPoints.append((i,j,l))
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         filename = "3D_Linear_run" +str(k) + ".csv"
 
         # حل ODE
-        t, Y = simulate(y0, t_start=0, t_end= 7, n_steps=40)
+        t, Y = simulate(y0, t_start=0, t_end= 7, n_steps=100)
 
         # رسم
         plot_results(t, Y)

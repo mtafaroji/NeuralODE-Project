@@ -8,7 +8,7 @@ import torch
 # ----------------------------
 # files paths and directories
 # ----------------------------
-RAW_DIR = "data/raw/evaluation"     ################################@@@@@@@@@@@@@@ Change the path for raw data
+RAW_DIR = "data/raw/Original"     ################################@@@@@@@@@@@@@@ Change the path for raw data
 PROCESSED_DIR = "data/processed"
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
@@ -50,7 +50,7 @@ data_norm = (data_tensor - mean) / std
 # ----------------------------
 # saving proceed data
 # ----------------------------
-out_path = os.path.join(PROCESSED_DIR, "datasetEval.pt")
+out_path = os.path.join(PROCESSED_DIR, "datasetOrig.pt")
 torch.save({
     "data": data_norm,       
     "time": time_tensor,     

@@ -21,7 +21,7 @@ print("Using device:", device)
 # ---------- Load trained model ---------- #######################@@@@@@@@ Load Model
 #model_path = "models/basin1.pth"
 #model_path = "models/basin1_then_basin2.pth"
-model_path = "models/3D_SIR2.pth"
+model_path = "models/3D_SIR3.pth"
 
 #----------- Load Tensor dataSet -------------####################@@@@@@ Load DataSet
 #dataset_path = "data/processed/datasetBasin1.pt"
@@ -117,6 +117,6 @@ fig.update_layout(
 )
 
 # ذخیره‌ی خروجی HTML
-out_path = "3D_SIR.html" ####################@@@@@@@@ Change the name of output file
+out_path = "3D_SIR3.html" ####################@@@@@@@@ Change the name of output file
 fig.write_html(out_path, include_plotlyjs="cdn")
 print(f"Saved HTML file to {out_path}")

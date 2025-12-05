@@ -26,19 +26,19 @@ time = dataset['time'].float().to(device)       # shape: (time_steps,)
 
 
 num_runs, num_steps, num_features = data.shape
-num_train_runs = num_runs #- 3 # reserve last 3 for testing
+num_train_runs = num_runs - 3 # reserve last 3 for testing
 
 # ---------- Initialize model, optimizer, and loss ----------
 f_theta = FTheta(input_dim=num_features).to(device)
-f_theta.load_state_dict(torch.load("models/3D_SIR.pth"))  #### Load pre-trained model on Basin1 ########################
+#f_theta.load_state_dict(torch.load("models/3D_SIR.pth"))  #### Load pre-trained model on Basin1 ########################
 optimizer = torch.optim.Adam(f_theta.parameters(), lr=1e-3)
 mse = nn.MSELoss()
 
 lambda_deriv = 2.0  # We can tune this hyperparameter to balance the two loss terms
 
 # ----------Training loop ------------------------------------
-batch_size = 25
-num_epochs = 400
+batch_size = 12
+num_epochs = 900
 for epoch in range(num_epochs):
     total_loss = 0.0
     total_batches = 0
@@ -117,5 +117,5 @@ for epoch in range(num_epochs):
 
 # ---------- 4. Save trained model ----------
 
-torch.save(f_theta.state_dict(), "models/3D_SIR2.pth")
+torch.save(f_theta.state_dict(), "models/3D_SIR3.pth")
 print("Model saved to models/3D_SIR2.pth")

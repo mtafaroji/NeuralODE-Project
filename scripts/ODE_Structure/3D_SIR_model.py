@@ -13,7 +13,6 @@ import torch
 # -------------------------------------------------
 # این قسمت را فقط با معادلاتت عوض کن
 
-
 a = 0.1
 b= 0.4
 c= 0.3
@@ -24,7 +23,19 @@ def rhs(t, state):
     dz = c * y - a * z
     return [dx, dy, dz]
 
+'''
 
+a = 60
+b= 0.8
+c= 10
+def rhs(t, state):
+    x, y, z= state
+    dx = a * z - b * (x*y/(x+y+z))
+    dy = b * (x*y/(x+y+z)) -c * y
+    dz = c * y - a * z
+    return [dx, dy, dz]
+
+'''
 
 # -------------------------------------------------
 # 2) تابع حل ODE
@@ -79,7 +90,7 @@ if __name__ == "__main__":
     
     all_StartPoints = []
 
-    for i in range (5, 55, 5):
+    for i in range (5, 75, 5):
         j =100 - i
         all_StartPoints.append((i,j))
     perm = torch.randperm(len(all_StartPoints))
@@ -97,7 +108,7 @@ if __name__ == "__main__":
         filename = "run" +str(k) + ".csv"
 
         # حل ODE
-        t, Y = simulate(y0, t_start=0, t_end=100, n_steps=100)
+        t, Y = simulate(y0, t_start=0, t_end=110, n_steps=90)
 
         # رسم
         plot_results(t, Y)

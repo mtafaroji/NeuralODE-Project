@@ -17,10 +17,10 @@ class FTheta(nn.Module):
             nn.Tanh(),
             nn.Linear(hidden_dim, hidden_dim),
             nn.Tanh(),
-            #nn.Linear(hidden_dim, hidden_dim),
-            #nn.Tanh(),
-            #nn.Linear(hidden_dim, hidden_dim),
-            #nn.Tanh(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh(),
             nn.Linear(hidden_dim, input_dim),
         )
     

@@ -19,8 +19,8 @@ from models.f_theta import FTheta
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
-model_path   = ROOT / "models" / "2Basin1_then_basin2FL0Der2.pth"
-dataset_path = ROOT / "data" / "processed" / "2Basin2.pt"
+model_path   = ROOT / "models" / "3BasinBothDisL0LD20Round7.pth"
+dataset_path = ROOT / "data" / "processed" / "3BasinBoth72.pt"
 
 print("Loading dataset (for mean/std) from:", dataset_path)
 dataset = torch.load(dataset_path, map_location=device)
@@ -42,12 +42,12 @@ print("std  (real scale):", std_np)
 # =====================================================================
 # بازه‌ی واقعی انتخاب‌شده توسط کاربر
 # =====================================================================
-x1_min_plot = 0.0
-x1_max_plot = 4.0
-x2_min_plot = -2.0
-x2_max_plot = 2.0
+x1_min_plot = -5.0
+x1_max_plot = 5.0
+x2_min_plot = -5.0
+x2_max_plot = 5.0
 
-num_points = 20
+num_points = 30
 
 # =====================================================================
 # بارگذاری مدل
@@ -91,8 +91,8 @@ V_real = dXdt_real[:, 1]
 # نرمال‌سازی جهت فلش‌ها برای visualization
 # =====================================================================
 mag = np.sqrt(U_real**2 + V_real**2) + 1e-12
-U_dir = 2*U_real / mag
-V_dir = 2*V_real / mag
+U_dir = 4*U_real / mag
+V_dir = 4*V_real / mag
 
 # =====================================================================
 # رسم با matplotlib + quiver

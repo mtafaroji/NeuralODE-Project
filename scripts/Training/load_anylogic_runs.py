@@ -9,7 +9,7 @@ import torch
 # files paths and directories
 # ----------------------------
 #RAW_DIR = "data/raw/basins_Composed"
-RAW_DIR = "data/raw/3D_SIR"     ################################@@@@@@@@@@@@@@ Change the path for raw data
+RAW_DIR = "data/raw/3BasinBothAttr"     ################################@@@@@@@@@@@@@@ Change the path for raw data
 PROCESSED_DIR = "data/processed" #############################@@@@@@@@@@@@@@ Change the path for processed data
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
@@ -27,13 +27,13 @@ for f in files:
     df = pd.read_csv(f)
     
     
-    required_cols = ['time','stock1','stock2','stock3']  #3D
-    #required_cols = ['time','stock1','stock2'] #2D
+    #required_cols = ['time','stock1','stock2','stock3']  #3D
+    required_cols = ['time','stock1','stock2'] #2D
     if not all(c in df.columns for c in required_cols):
         raise ValueError(f"File {f} must have columns: {required_cols}")
     
-    stocks = df[['stock1','stock2','stock3']].values  # shape: (time_steps, features) # 3D
-    #stocks = df[['stock1','stock2']].values  # shape: (time_steps, features)        # 2D
+    #stocks = df[['stock1','stock2','stock3']].values  # shape: (time_steps, features) # 3D
+    stocks = df[['stock1','stock2']].values  # shape: (time_steps, features)        # 2D
     
     stocks_tensor = torch.from_numpy(stocks.astype('float32')).unsqueeze(0)  # shape: (1, time_steps, features)
     
@@ -53,7 +53,7 @@ data_norm = (data_tensor - mean) / std
 # ----------------------------
 # saving proceed data
 # ----------------------------
-out_path = os.path.join(PROCESSED_DIR, "3D_SIR.pt")  #########################@@@@@@@@ Change the name of processed data
+out_path = os.path.join(PROCESSED_DIR, "3BasinBothAttr.pt")  #########################@@@@@@@@ Change the name of processed data
 torch.save({
     "data": data_norm,       
     "time": time_tensor,     

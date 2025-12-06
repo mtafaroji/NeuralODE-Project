@@ -54,8 +54,8 @@ def simulate(y0, t_start, t_end, n_steps=1000, method="RK45"):
 # 3) ذخیره در CSV
 # -------------------------------------------------
 def save_csv(t, Y, filename):
-    os.makedirs("data/raw/3D_SIR", exist_ok=True)  ### Make sure directory exists ###
-    path = f"data/raw/3D_SIR/{filename}"  ###########################################@@@@@ save path
+    os.makedirs("data/raw/Attractor", exist_ok=True)  ### Make sure directory exists ###
+    path = f"data/raw/Attractor/{filename}"  ###########################################@@@@@ save path
 
     df = pd.DataFrame({
         "time": t,
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     
     all_StartPoints = []
 
-    for i in range (5, 75, 5):
+    for i in range (7, 75, 7):
         j =100 - i
         all_StartPoints.append((i,j))
     perm = torch.randperm(len(all_StartPoints))
@@ -108,7 +108,7 @@ if __name__ == "__main__":
         filename = "run" +str(k) + ".csv"
 
         # حل ODE
-        t, Y = simulate(y0, t_start=0, t_end=110, n_steps=90)
+        t, Y = simulate(y0, t_start=0, t_end=150, n_steps=200)
 
         # رسم
         plot_results(t, Y)

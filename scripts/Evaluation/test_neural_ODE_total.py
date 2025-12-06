@@ -19,15 +19,15 @@ print("Using device:", device)
 
 
 # ---------- Load trained model ---------- #######################@@@@@@@@ Load Model
-#model_path = "models/basin1.pth"
+model_path = "models/3BasinBothDisL0LD20Round7.pth"
 #model_path = "models/basin1_then_basin2.pth"
-model_path = "models/3D_SIR3.pth"
+#model_path = "models/3D_SIR3.pth"
 
 #----------- Load Tensor dataSet -------------####################@@@@@@ Load DataSet
 #dataset_path = "data/processed/datasetBasin1.pt"
 #dataset_path = "data/processed/datasetBasin2.pt"
 #dataset_path = "data/processed/datasetComposed.pt"
-dataset_path = "data/processed/3D_SIR.pt"
+dataset_path = "data/processed/3BasinBothAttr.pt"
 
 # Load dataset
 dataset = torch.load(dataset_path)
@@ -117,6 +117,6 @@ fig.update_layout(
 )
 
 # ذخیره‌ی خروجی HTML
-out_path = "3D_SIR3.html" ####################@@@@@@@@ Change the name of output file
+out_path = "EvaluationBoth8AfterRound7.html" ####################@@@@@@@@ Change the name of output file
 fig.write_html(out_path, include_plotlyjs="cdn")
 print(f"Saved HTML file to {out_path}")

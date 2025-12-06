@@ -19,10 +19,11 @@ from models.f_theta import FTheta
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
-dataset_path = ROOT / "data" / "processed" / "2Basin1.pt"
+dataset_path = ROOT / "data" / "processed" / "3BasinBoth72.pt"
+
 #model_path   = ROOT / "models" / "2basin1FL0Der2.pth"
 #model_path   = ROOT / "models" / "2Basin1_then_basin2FL0Der2.pth"
-model_path   = ROOT / "models" / "2basin1FL0Der2Round2.pth"
+model_path   = ROOT / "models" / "3BasinBothDisL0LD20Round7.pth"
 
 dataset = torch.load(dataset_path, map_location=device)
 data = dataset["data"].float()
@@ -38,11 +39,13 @@ f_theta.eval()
 # =====================================================================
 # گرید
 # =====================================================================
-grid_min, grid_max = -1.0, 1.0
-num_points = 20
+grid_minX, grid_maxX = -3.0, 3.0
+grid_minY, grid_maxY = -3.0, 3.0
+num_pointsX = 30
+num_pointsY = 30
 
-x_vals = np.linspace(grid_min, grid_max, num_points, dtype=np.float32)
-y_vals = np.linspace(grid_min, grid_max, num_points, dtype=np.float32)
+x_vals = np.linspace(grid_minX, grid_maxX, num_pointsX, dtype=np.float32)
+y_vals = np.linspace(grid_minY, grid_maxY, num_pointsY, dtype=np.float32)
 X, Y = np.meshgrid(x_vals, y_vals)
 
 XY = np.stack([X.ravel(), Y.ravel()], axis=1).astype(np.float32)
@@ -61,8 +64,8 @@ V = dH[:, 1]
 # نرمال‌سازی بردارها (فقط برای جهت)
 # =====================================================================
 mag = np.sqrt(U**2 + V**2) + 1e-12
-U_norm = U / mag
-V_norm = V / mag
+U_norm = 4*U / mag
+V_norm = 4*V / mag
 
 # =====================================================================
 # رسم با matplotlib و quiver (فلش استاندارد و قابل زوم)

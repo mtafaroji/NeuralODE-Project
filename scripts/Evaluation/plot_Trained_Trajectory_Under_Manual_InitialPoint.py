@@ -4,7 +4,7 @@ from torchdiffeq import odeint
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 from models.f_theta import FTheta
 # ------------------- Device -----------------------
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -13,7 +13,7 @@ print("Using device:", device)
 
 
 # ----------- Load Tensor dataset -------------
-dataset_path = "data/processed/2Basin1.pt"     ###########################@@@@@@ Load DataSet Path
+dataset_path = "data/processed/TwoBasinWith48PointsDataSet.pt"     ###########################@@@@@@ Load DataSet Path
 dataset = torch.load(dataset_path)
 
 data = dataset['data'].float().to(device)
@@ -23,7 +23,7 @@ std  = dataset['std']                        # shape: (1,1,D)
 num_runs, num_steps, num_features = data.shape
 
 # ----------- Load trained model ------------
-model_path = "models/2Basin1_then_basin2FL0Der2.pth" ###########################@@@@@@ Load Model Path
+model_path = "models/TwoBasinTrainedOver72Points.pth" ###########################@@@@@@ Load Model Path
 
 
 # ---- Prepare mean/std on CPU for manual normalization ----

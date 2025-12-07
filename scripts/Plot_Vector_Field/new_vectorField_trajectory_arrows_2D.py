@@ -24,9 +24,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
 # Files
-dataset_path = ROOT / "data" / "processed" / "3BasinBoth48.pt"
-model_path   = ROOT / "models" / "3BasinBothDisL0LD20Round7.pth"
-csv_path     = ROOT / "data" / "raw" / "3BasinBoth" / "run1.csv"
+dataset_path = ROOT / "data" / "processed" / "TwoBasinWith48PointsDataSet.pt"
+model_path   = ROOT / "models" / "TwoBasinTrainedOver72Points.pth"
+csv_path     = ROOT / "data" / "raw" / "TwoBasins" / "run1.csv"
 
 print("Loading processed dataset from:", dataset_path)
 dataset = torch.load(dataset_path, map_location=device)

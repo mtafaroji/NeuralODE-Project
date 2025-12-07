@@ -54,7 +54,7 @@ def simulate(y0, t_start, t_end, n_steps=1000, method="RK45"):
 # -------------------------------------------------
 def save_csv(t, Y, filename):
     os.makedirs("data/raw/Attractor", exist_ok=True)  ### Make sure directory exists ###
-    path = f"data/raw/Attractor/{filename}"  ###########################################@@@@@ save path
+    path = f"data/raw/madeByPython/{filename}"  ###########################################@@@@@ save path
 
     df = pd.DataFrame({
         "time": t,

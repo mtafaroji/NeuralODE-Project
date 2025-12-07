@@ -8,7 +8,7 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 # Import our model
-from models.f_theta import FTheta
+from models.f_theta1_256 import FTheta
 
 
 
@@ -18,7 +18,7 @@ print("Using device:", device)
 
 
 # ------- Load processed data ---------------------
-dataset = torch.load("data/processed/3D_SIR.pt")
+dataset = torch.load("data/processed/3D_evaluation.pt")
 data = dataset['data'].float().to(device)       # shape: (num_runs, time_steps, features)     
 time = dataset['time'].float().to(device)       # shape: (time_steps,)  
 
@@ -37,7 +37,7 @@ mse = nn.MSELoss()
 lambda_deriv = 2.0  # We can tune this hyperparameter to balance the two loss terms
 
 # ----------Training loop ------------------------------------
-batch_size = 12
+batch_size = 19
 num_epochs = 900
 for epoch in range(num_epochs):
     total_loss = 0.0
@@ -117,5 +117,5 @@ for epoch in range(num_epochs):
 
 # ---------- 4. Save trained model ----------
 
-torch.save(f_theta.state_dict(), "models/3D_SIR3.pth")
+torch.save(f_theta.state_dict(), "models/3D_NonLinear.pth")
 print("Model saved to models/3D_SIR2.pth")

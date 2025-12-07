@@ -28,10 +28,10 @@ sys.path.append(str(ROOT))
 ROOT = Path(__file__).resolve().parents[2]    # Go to project root
 sys.path.append(str(ROOT))
 
-f_theta_path   = ROOT / "models" / "f_theta.py"  # For information only; import is from models.f_theta
-model_path     = ROOT / "models" / "3D_SIR3.pth"
-dataset_orig_path = ROOT / "data" / "processed" / "3D_SIR_Orig.pt"
-dataset_att_path  = ROOT / "data" / "processed" / "3D_SIR_Attr.pt"
+f_theta_path   = ROOT / "models" / "f_theta1_256.py"  # For information only; import is from models.f_theta
+model_path     = ROOT / "models" / "3D_NonLinear.pth"
+dataset_orig_path = ROOT / "data" / "processed" / "3D_evaluation.pt"
+dataset_att_path  = ROOT / "data" / "processed" / "3D_evaluation.pt"
 
 
 from models.f_theta import FTheta  # Network definition

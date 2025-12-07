@@ -19,11 +19,11 @@ from models.f_theta import FTheta
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
-dataset_path = ROOT / "data" / "processed" / "3BasinBoth72.pt"
+dataset_path = ROOT / "data" / "processed" / "TwoBasinWith48PointsDataSet.pt"
 
 #model_path   = ROOT / "models" / "2basin1FL0Der2.pth"
 #model_path   = ROOT / "models" / "2Basin1_then_basin2FL0Der2.pth"
-model_path   = ROOT / "models" / "3BasinBothDisL0LD20Round7.pth"
+model_path   = ROOT / "models" / "TwoBasinTrainedOver72Points.pth"
 
 dataset = torch.load(dataset_path, map_location=device)
 data = dataset["data"].float()

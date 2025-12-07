@@ -8,7 +8,7 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 # Import our model
-from models.f_theta import FTheta
+from models.f_theta3_256 import FTheta
 
 
 
@@ -18,7 +18,7 @@ print("Using device:", device)
 
 
 # ------- Load processed data ---------------------
-dataset = torch.load("data/processed/3BasinBoth72.pt")                     #### Changed name of DataSet file ############################
+dataset = torch.load("data/processed/TwoBasinWith72PointsDataSet.pt")                     #### Changed name of DataSet file ############################
 data = dataset['data'].float().to(device)       # shape: (num_runs, time_steps, features)     
 time = dataset['time'].float().to(device)       # shape: (time_steps,)  
 
@@ -26,11 +26,11 @@ time = dataset['time'].float().to(device)       # shape: (time_steps,)
 
 
 num_runs, num_steps, num_features = data.shape
-num_train_runs = num_runs #- 3 # reserve last 3 for testing
+num_train_runs = num_runs - 5 # reserve last 3 for testing
 
 # ---------- Initialize model, optimizer, and loss ----------
 f_theta = FTheta(input_dim=num_features).to(device)
-f_theta.load_state_dict(torch.load("models/3BasinBothDisL0LD20Round6.pth"))   #### Changed name of Loaded model ##########################
+#f_theta.load_state_dict(torch.load("models/3BasinBothDisL0LD20Round6.pth"))   #### Changed name of Loaded model ##########################
 
 ############# Layer freezing ########
 
@@ -59,7 +59,7 @@ lambda_deriv = 2.0  # We can tune this hyperparameter to balance the two loss te
 
 # ----------Training loop ------------------------------------
 batch_size = 20
-num_epochs = 200
+num_epochs = 800
 for epoch in range(num_epochs):
     total_loss = 0.0
     total_batches = 0
@@ -138,5 +138,5 @@ for epoch in range(num_epochs):
 
 # ---------- 4. Save trained model ----------
 
-torch.save(f_theta.state_dict(), "models/3BasinBothDisL0LD20Round7.pth")  #### Changed name of saved model ############################
-print("Model saved to models/3BasinBothDisL0LD20Round1.pth")
+torch.save(f_theta.state_dict(), "models/2D_2BasinOver72PointTraining.pth")  #### Changed name of saved model ############################
+print("Model saved to models/2D_2BasinOver72PointTraining.pth")

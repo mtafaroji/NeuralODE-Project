@@ -40,7 +40,7 @@ def simulate(y0, t_start, t_end, n_steps=1000, method="RK45"):
 # 3) Save to CSV
 # -------------------------------------------------
 def save_csv(t, Y, filename):
-    os.makedirs("data/raw/2Basin2", exist_ok=True)  ### Make sure directory exists ###
+    os.makedirs("data/raw/madeByPython", exist_ok=True)  ### Make sure directory exists ###
     path = f"data/raw/2Basin2/{filename}"  ###########################################@@@@@ save path
 
     df = pd.DataFrame({

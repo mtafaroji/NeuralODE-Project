@@ -1,7 +1,7 @@
-# scripts/vectorField/vectorField_combined_real_2D.py
+# 
 #
 # 1) Vector field on a grid in real (denormalized) space with quiver
-# 2) All real trajectories from run*.csv files in data/raw/2Basin1
+# 2) All real trajectories from run*.csv files in data/raw/
 # 3) dx/dt along each trajectory
 #  :
 
@@ -33,10 +33,10 @@ print("Using device:", device)
 #csv_dir     = ROOT / "data" / "raw" / "2Basin1"  
 
 
-model_path   = ROOT / "models" / "3BasinBothDisL0LD20Round7.pth"
-dataset_path = ROOT / "data" / "processed" / "3BasinBoth48.pt"
+model_path   = ROOT / "models" / "TwoBasinTrainedOver72Points.pth"
+dataset_path = ROOT / "data" / "processed" / "TwoBasinWith48PointsDataSet.pt"
 # Real trajectories
-csv_dir     = ROOT / "data" / "raw" / "3BasinBoth" 
+csv_dir     = ROOT / "data" / "raw" / "TwoBasins" 
 
 
 #model_path   = ROOT / "models" / "2Basin1_then_basin2FL0Der2.pth"
@@ -114,7 +114,7 @@ V_grid_dir = 5 * V_grid_real / mag_grid
 # =====================================================================
 # 2) Read all real trajectories and compute dx/dt vectors on them
 # =====================================================================
-csv_files = sorted(csv_dir.glob("run*.csv"))
+csv_files = sorted(csv_dir.glob("*.csv"))
 if not csv_files:
     raise SystemExit(f"No CSV files matching 'run*.csv' found in {csv_dir}")
 

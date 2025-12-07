@@ -6,10 +6,10 @@ import plotly.graph_objects as go
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 
-from models.f_theta8 import FTheta
+from models.f_theta3_256 import FTheta
 
 
 # ------------------- Device -----------------------
@@ -21,13 +21,13 @@ print("Using device:", device)
 # ---------- Load trained model ---------- #######################@@@@@@@@ Load Model
 #model_path = "models/basin1.pth"
 #model_path = "models/basin1_then_basin2.pth"
-model_path = "models/NonAutonomous_DrivativeOff00.pth"
+model_path = "models/TwoBasinTrainedOver72Points.pth"
 
 #----------- Load Tensor dataSet -------------####################@@@@@@ Load DataSet
 #dataset_path = "data/processed/datasetBasin1.pt"
 #dataset_path = "data/processed/datasetBasin2.pt"
 #dataset_path = "data/processed/datasetComposed.pt"
-dataset_path = "data/processed/datasetEval.pt"
+dataset_path = "data/processed/TwoBasinWith72PointsDataSet.pt"
 
 # Load dataset
 dataset = torch.load(dataset_path)
@@ -116,6 +116,6 @@ fig.update_layout(
 )
 
 # Save HTML output
-out_path = "Non_Autonomous_DrivativeOff00.html" ####################@@@@@@@@ Change the name of output file
+out_path = "TwoBasinTrainedOver72Points.html" ####################@@@@@@@@ Change the name of output file
 fig.write_html(out_path, include_plotlyjs="cdn")
 print(f"Saved HTML file to {out_path}")

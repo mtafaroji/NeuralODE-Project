@@ -4,10 +4,10 @@ from torchdiffeq import odeint
 
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 
-from models.f_theta import FTheta
+from models.f_theta1_256 import FTheta
 
 
 # ------------------- Device -----------------------
@@ -17,9 +17,9 @@ print("Using device:", device)
 
 
 # ---------- Load trained model ----------
-model_path = "models/neural_ode_model.pth"
+model_path = "models/autonomous_DrivativeOnEval.pth"
 
-dataset_path = "data/processed/dataset.pt"
+dataset_path = "data/processed/3D_evaluation.pt"
 
 # Load dataset
 dataset = torch.load(dataset_path)

@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 
 
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 from models.f_theta8 import FTheta   # Model that takes time as input
 
 
@@ -14,7 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
 # ------------------- Load dataset -----------------
-dataset_path = "data/processed/datasetEval.pt"
+dataset_path = "data/processed/3D_evaluation.pt"
 dataset = torch.load(dataset_path)
 
 # data shape: (num_runs, num_steps, num_features)
@@ -54,7 +54,7 @@ loss_fn = nn.MSELoss()
 # Weight of derivative loss ()
 lambda_deriv = 0.0
 
-num_epochs = 1000
+num_epochs = 800
 
 # ------------------- Training loop ----------------
 for epoch in range(1, num_epochs + 1):
@@ -146,6 +146,6 @@ for epoch in range(1, num_epochs + 1):
               f"Avg window loss (traj + {lambda_deriv}*deriv): {avg_loss:.6f}")
 
 # ------------------- Save trained model -----------
-model_path = "models/NonAutonomous_DrivativeOff00.pth"
+model_path = "models/3D_NonAutonomousDer00.pth"
 torch.save(f_theta.state_dict(), model_path)
 print("Saved trained model to:", model_path)

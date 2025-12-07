@@ -70,7 +70,7 @@ dir_x = U / lengths
 dir_y = V / lengths
 dir_z = W / lengths
 
-head_frac = 0.12            # چند درصد طول فلش سر باشد
+head_frac = 0.12            
 head_len = lengths * head_frac
 
 cone_u = dir_x * head_len
@@ -91,7 +91,7 @@ fig.add_trace(
     )
 )
 
-# سرِ فلش‌ها: cone کوچک در انتها
+
 fig.add_trace(
     go.Cone(
         x=X1,
@@ -100,9 +100,9 @@ fig.add_trace(
         u=cone_u,
         v=cone_v,
         w=cone_w,
-        anchor="tip",           # نوک مخروط روی نقطه‌ی انتهایی فلش می‌نشیند
+        anchor="tip",          
         sizemode="absolute",
-        sizeref=scale * 1.5,    # اگر سر فلش خیلی بزرگ/کوچک بود این را تنظیم کن
+        sizeref=scale * 1.5,    
         showscale=False,
         colorscale=[[0, "blue"], [1, "blue"]],
         opacity=1.0,

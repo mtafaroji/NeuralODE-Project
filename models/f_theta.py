@@ -6,10 +6,14 @@ class FTheta(nn.Module):
     Neural ODE function f_theta(h, t)
     Defines the derivative dh/dt = f_theta(h, t)
     """
-    def __init__(self, input_dim, hidden_dim=16):
+    def __init__(self, input_dim, hidden_dim=256):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, hidden_dim),
             nn.Tanh(),
             nn.Linear(hidden_dim, hidden_dim),
             nn.Tanh(),
